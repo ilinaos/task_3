@@ -1,0 +1,32 @@
+SELECT DISTINCT c.FirstName|| ' '|| c.LastName AS FullName, c.Phone
+FROM Customer AS C
+JOIN Invoice AS i ON c.CustomerId=i.CustomerId
+WHERE (SELECT COUNT(*) FROM Customer AS CC WHERE CC.City=C.City) >1
+ORDER BY c.City
+
+
+
+SELECT BillingCity, sum(Total) as fULLpRICE
+From Invoice 
+GROUP BY BillingCity
+ORDER by fULLpRICE DESC
+LIMIT 3
+
+
+
+SELECT Track.Name, Album.Title, Track.Composer
+From Track
+JOIN Genre ON Genre.GenreId=Track.GenreId
+JOIN Album ON Album.AlbumId=Track.AlbumId
+WHERE Genre.Name=
+(
+SELECT g.Name AS _Genre
+FROM Genre AS g
+JOIN Track AS t ON t.GenreId=g.GenreId
+JOIN InvoiceLine AS IL ON IL.TrackId=t.TrackId
+JOIN Invoice AS I ON I.InvoiceId = IL.InvoiceId
+GROUP BY g.Name
+ORDER BY count(I.InvoiceId) DESC
+LIMIT 1
+)
+ORDER BY Album.Title
