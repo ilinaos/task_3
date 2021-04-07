@@ -1,0 +1,26 @@
+SELECT DISTINCT c.CustomerId, c.FirstName|| ' '|| c.LastName AS FullName, c.Phone, c.Company
+FROM Customer AS c 
+JOIN Employee AS e ON c.SupportRepId=e.EmployeeId
+JOIN Invoice I ON c.CustomerId = I.CustomerId
+JOIN InvoiceLine IL ON I.InvoiceId = IL.InvoiceId
+JOIN Track AS T ON IL.TrackId=T.TrackId
+JOIN Genre AS G ON T.GenreId=G.GenreId
+            WHERE  G.Name <> 'Rock' AND 2021 - e.BirthDate >50
+ORDER BY c.City ASC, c.Email DESC
+LIMIT 10
+
+
+
+SELECT e.FirstName || ' ' || e.LastName AS FullName, e.Phone, er.FirstName || ' ' || er.LastName AS LeaderFullName, er.Phone as LeaderPhone
+FROM Employee AS e
+JOIN Employee AS er ON er.EmployeeId = e.ReportsTo
+
+
+
+SELECT DISTINCT c.FirstName|| ' '|| c.LastName AS FullName, c.Phone
+FROM Customer AS c 
+JOIN Invoice I ON c.CustomerId = I.CustomerId
+JOIN InvoiceLine IL ON I.InvoiceId = IL.InvoiceId
+JOIN Track AS T ON IL.TrackId=T.TrackId
+WHERE T.UnitPrice>1
+ORDER BY c.LastName
